@@ -169,3 +169,12 @@ I will cover 3 scenarios where the malicious code will execute different outputs
           ```  
         
         ![Boom](http://g.recordit.co/xrvaibjQcF.gif)
+    
+---    
+    
+## References:
+
+- [LDAP Server](https://www.codetd.com/en/article/7503321)
+- [JNDI Exploit Github](https://github.com/pimps/JNDI-Exploit-Kit)
+- [Sample Exploit](https://www.thesecmaster.com/how-does-the-log4j-vulnerability-work-in-practical/)
+- [Netcat Exploit](https://www.youtube.com/watch?v=tJW204uZWPU)
