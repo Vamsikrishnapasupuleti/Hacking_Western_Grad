@@ -79,10 +79,10 @@
      - Add below lines in default file created under src/main/java --> *Application.java in main method. 
       `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");
        System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");`
-     - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
+      - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker         container.
     `sudo apt install docker.io` 
-<br/>    
-### Live Demo:
+    
+#### Live Demo:
 I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
   1. Open ==calculator== on windows system by executing vulnerable java application on local system.
        - Run the spring boot application as below.
