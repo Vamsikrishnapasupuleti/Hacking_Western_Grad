@@ -6,7 +6,7 @@
 
 - Since this exploit is done through the log4j it was named commonly as Log4shell.
 
-- Log4shell is similar to the *SQL injection* in which attacker enters sql string into the request parameters and making it execute  on the host server whereas in *log4shell* hacker enters his directory service url like ldap server making the host application connect to the attacker server using jndi lookup and gets the malicious code execute on the host server which is returned to host application in the form of stream object.\
+- Log4shell is similar to the *SQL injection* in which attacker enters sql string into the request parameters and making it execute  on the host server whereas in *log4shell* hacker enters his directory service url like ldap server making the host application connect to the attacker server using jndi lookup and gets the malicious code execute on the host server which is returned to host application in the form of stream object.
 
   ![Alt Text](log4shell.gif)
 
@@ -17,7 +17,7 @@
 - In 2013, Log4j has introduced a new feature which evaluates Expression language which is in format ${code/variable}.
 
 - For example if we want to print the environment variable then syntax of the logger will be,
-   ```log.info("java version is {}", ${java.version});```\
+   ```log.info("java version is {}", ${java.version});```
 
 - The above expression ${java.version} looks the system level environemnt variables which are set at server level and access the variable and put the value in the logger file.
 
@@ -35,7 +35,7 @@
   - DNS
   - NIS
 
-- Like all Java APIs that interface with host systems, JNDI is independent of the underlying implementation.\
+- Like all Java APIs that interface with host systems, JNDI is independent of the underlying implementation.
 
   ![Alt Text](What-is-JNDI-in-Java.png)
 
@@ -69,16 +69,16 @@
   - Move to the jar location and run the server using below command.
     `java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -C "calc.exe" -L <your private ip>:1389`
   ![Alt Text](run_ldap.png)
-  > *_NOTE:_*  Use **hostname -I | awk '{print $1}'** to ge the private IP.\
+  > *_NOTE:_*  Use **hostname -I | awk '{print $1}'** to ge the private IP.
 - [x] *Create a spring boot application using log4j2 dependence with version less than 2.15*: 
       -  Open any Java IDE (Eclipse or SpringToolSuite) \
          ![createapp](http://g.recordit.co/I5a0PeQpkf.gif)
-     -  Replace pom.xml with below file & copy below LogController src/main/java,\
-          [pom](pom.xml) \
-          [LogController](LogController.java) \
+     -  Replace pom.xml with below file & copy below LogController src/main/java,
+          [pom](pom.xml) 
+          [LogController](LogController.java) 
      - Add below lines in default file created under src/main/java --> *Application.java in main method. 
-      `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");\
-      `System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");`
+      `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");
+       System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");`
      - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
     `sudo apt install docker.io` 
 <br/>    
