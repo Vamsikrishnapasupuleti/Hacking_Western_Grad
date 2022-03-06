@@ -37,7 +37,7 @@ $~$
   - NIS
 
 - Like all Java APIs that interface with host systems, JNDI is independent of the underlying implementation.
-$~$
+<br/>
 
   ![Alt Text](What-is-JNDI-in-Java.png)
 
@@ -90,8 +90,9 @@ $~$
 		System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");`
     - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
     `sudo apt install docker.io`
----  
-- I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
+----  
+
+I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
   1. Open ==calculator== on windows system by executing vulnerable java application on local system.
        - Run the spring boot application as below.
     ![run app](http://g.recordit.co/AW98phqr4i.gif) 
