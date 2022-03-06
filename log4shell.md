@@ -170,7 +170,6 @@ I will cover 3 scenarios where the malicious code will execute different outputs
         
         ![Boom](http://g.recordit.co/xrvaibjQcF.gif)
     
----    
     
 ## References:
 
