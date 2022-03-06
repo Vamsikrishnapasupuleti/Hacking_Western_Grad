@@ -45,8 +45,6 @@
 
 - LDAP (Light Weight Directory Access Protocol) is a software protocol for enabling anyone to locate data about organizations, individuals and other resources such as files and devices in a network -- whether on the public Internet or on a corporate Intranet.
 
-
-
   ![Alt Text](how-ldap-works.png)
 
 - This is mostly used while authenticating a users when logging in to a applications since it is not a heavyweight protocol like http and takes less time and also reduces the costly DB hits.
@@ -78,9 +76,7 @@
   > *_NOTE:_*  Use **hostname -I | awk '{print $1}'** to ge the private IP.
  - [x] *Create a spring boot application using log4j2 dependence with version less than 2.15* 
       -  Open any Java IDE (Eclipse or SpringToolSuite) 
-<br/>
     ![create Spring boot app](http://g.recordit.co/UJqn2R3YVo.gif)
-    
      -  Replace pom.xml with below file & copy below LogController src/main/java a
       [pom](pom.xml)
       [LogController](LogController.java)
