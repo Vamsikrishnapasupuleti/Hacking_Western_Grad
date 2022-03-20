@@ -111,14 +111,16 @@
 
 **Steps:**
 1. Install the WordPress Application & create a user who has access to upload media files:
+    - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
+    `sudo apt install docker.io`
+    
     - Download the below docker-compose file and open terminal in the saved path and run below command.
     
         [docker-compose.yml](docker-compose.yml)
         ```
         docker-compose up -d
         ```
-     - Install [kali-linux](https://www.kali.org/docs/introduction/download-official-kali-linux-images/) and execute below command to install docker for executing app in docker container.
-    `sudo apt install docker.io` 
+      
     - Open the application using http://your ip:80 and follow the instructions and create a admin user.Once admin user is created you will be redirected to login page and use the credentials to login.
     - Create a new user with **Author** role using below steps
     ![1](images/create_user_steps1.png)
